@@ -1,10 +1,11 @@
 {
   pkgs ? import <nixpkgs> { },
+  version ? "1.2.1",
 }:
 
 pkgs.stdenv.mkDerivation {
   pname = "barretenberg";
-  version = "1.2.1";
+  inherit version;
 
   dontUnpack = true;
 
@@ -31,7 +32,7 @@ pkgs.stdenv.mkDerivation {
     BBUP="$BB_PATH/bbup"
     curl -L https://raw.githubusercontent.com/AztecProtocol/aztec-packages/master/barretenberg/bbup/bbup -o "$BBUP"
     chmod a+x "$BBUP"
-    "$BBUP" --version 1.2.1
+    "$BBUP" --version ${version}
     echo Files are: $( ls -R $out )
   '';
 

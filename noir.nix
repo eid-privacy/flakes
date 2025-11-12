@@ -1,10 +1,11 @@
 {
   pkgs ? import <nixpkgs> { },
+  version ? "1.0.0-beta.13",
 }:
 
 pkgs.stdenv.mkDerivation {
   pname = "noir";
-  version = "1.0.0-beta.13";
+  inherit version;
 
   dontUnpack = true;
 
@@ -34,8 +35,8 @@ pkgs.stdenv.mkDerivation {
     curl -L https://raw.githubusercontent.com/noir-lang/noirup/main/install | bash
 
     # Install specific version of noir
-    echo "Installing noir version 1.0.0-beta.13..."
-    "$NARGO_HOME/bin/noirup" -v 1.0.0-beta.13
+    echo "Installing noir version ${version}..."
+    "$NARGO_HOME/bin/noirup" -v ${version}
   '';
 
   meta = with pkgs.lib; {
