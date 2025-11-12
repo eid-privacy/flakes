@@ -12,7 +12,6 @@ We mainly use devbox, so these flakes can be added like this:
     "github:eid-privacy/flakes#noir",
     "github:eid-privacy/flakes#barretenberg"
   ],
-...
 ```
 
 Or via command line:
@@ -30,7 +29,6 @@ devbox add github:eid-privacy/flakes#barretenberg
     "github:eid-privacy/flakes#noir-versions.v1_0_0-beta_15",
     "github:eid-privacy/flakes#barretenberg-versions.v2_1_2"
   ],
-...
 ```
 
 Or via command line:
