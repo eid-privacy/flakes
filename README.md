@@ -46,6 +46,7 @@ Currently the following versions are available:
 - `noir` (default) - 1.0.0-beta.13
 - `noir-versions.v1_0_0-beta_13` - 1.0.0-beta.13
 - `noir-versions.v1_0_0-beta_15` - 1.0.0-beta.15
+- `noir-versions.v1_0_0-beta_17` - 1.0.0-beta.17
 
 ## Barretenberg
 - `barretenberg` (default) - 1.2.1 (compatible with noir beta.13)

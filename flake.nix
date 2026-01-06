@@ -20,11 +20,13 @@
         noir-versions = {
           v1_0_0-beta_13 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.13"; };
           v1_0_0-beta_15 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.15"; };
+          v1_0_0-beta_17 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.17"; };
         };
 
         barretenberg-versions = {
           v1_2_1 = pkgs.callPackage ./barretenberg.nix { version = "1.2.1"; };
           v2_1_2 = pkgs.callPackage ./barretenberg.nix { version = "2.1.2"; };
+          v2_1_8 = pkgs.callPackage ./barretenberg.nix { version = "2.1.8"; };
         };
       };
     });
