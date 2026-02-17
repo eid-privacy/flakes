@@ -18,6 +18,7 @@
 
         # Version-specific packages organized by tool
         noir-versions = {
+          v1_0_0-beta_8 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.8"; };
           v1_0_0-beta_13 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.13"; };
           v1_0_0-beta_15 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.15"; };
           v1_0_0-beta_17 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.17"; };
