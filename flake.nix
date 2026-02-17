@@ -31,6 +31,7 @@
           beta_16 = pkgs.callPackage ./barretenberg.nix { version = "3.0.0-nightly.20251105"; };
           beta_17 = pkgs.callPackage ./barretenberg.nix { version = "3.0.0-nightly.20251104"; };
           beta_18 = pkgs.callPackage ./barretenberg.nix { version = "3.0.0-nightly.20260102"; };
+          v3_0_0_18 = pkgs.callPackage ./barretenberg.nix { version = "3.0.0-nightly.20260102"; };
         };
       };
     in {
