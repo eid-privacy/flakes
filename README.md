@@ -47,6 +47,17 @@ builds:
 nix build .#noir-versions.v1_0_0-beta_15
 ```
 
+## Updating
+
+I had the problem of devbox/nix being 'stuck' in a detached head of this
+repo, so it wouldn't advance the definitions.
+In the end I had to run the following command to point nix in the
+right direction:
+
+```bash
+nix flake update --flake github:eid-privacy/flakes
+```
+
 # Versions available
 
 Currently the following versions are available:
