@@ -38,6 +38,15 @@ devbox add github:eid-privacy/flakes#noir-versions.v1_0_0-beta_15
 devbox add github:eid-privacy/flakes#barretenberg-versions.v2_1_2
 ```
 
+# Testing
+
+If you're adding new versions, and want to make sure that the flake
+builds:
+
+```bash
+nix build .#noir-versions.v1_0_0-beta_15
+```
+
 # Versions available
 
 Currently the following versions are available:
@@ -45,10 +54,27 @@ Currently the following versions are available:
 ## Noir
 - `noir` (default) - 1.0.0-beta.13
 - `noir-versions.v1_0_0-beta_13` - 1.0.0-beta.13
+- `noir-versions.v1_0_0-beta_14` - 1.0.0-beta.14
 - `noir-versions.v1_0_0-beta_15` - 1.0.0-beta.15
+- `noir-versions.v1_0_0-beta_16` - 1.0.0-beta.16
 - `noir-versions.v1_0_0-beta_17` - 1.0.0-beta.17
+- `noir-versions.v1_0_0-beta_18` - 1.0.0-beta.18
+
 
 ## Barretenberg
+
+For the above beta versions of noir, it installs the corresponding version
+of barretenberg, according to
+
+https://github.com/AztecProtocol/aztec-packages/blob/next/barretenberg/bbup/bb-versions.json 
+
 - `barretenberg` (default) - 1.2.1 (compatible with noir beta.13)
 - `barretenberg-versions.v1_2_1` - 1.2.1
 - `barretenberg-versions.v2_1_2` - 2.1.2
+- `barretenberg-versions.v2_1_8` - 2.1.8
+- `barretenberg-versions.beta13` - 1.2.0
+- `barretenberg-versions.beta14` - 3.0.0-nightly.20251030-2
+- `barretenberg-versions.beta15` - 3.0.0-nightly.20251104
+- `barretenberg-versions.beta16` - 3.0.0-nightly.20251104
+- `barretenberg-versions.beta17` - 3.0.0-nightly.20251104
+- `barretenberg-versions.beta18` - 3.0.0-nightly.20260102
