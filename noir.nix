@@ -7,6 +7,8 @@ pkgs.stdenv.mkDerivation {
   pname = "noir";
   inherit version;
 
+  __noChroot = true;
+
   dontUnpack = true;
 
   src = pkgs.emptyDirectory;

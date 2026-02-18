@@ -7,6 +7,8 @@ pkgs.stdenv.mkDerivation {
   pname = "barretenberg";
   inherit version;
 
+  __noChroot = true;
+
   dontUnpack = true;
 
   src = pkgs.emptyDirectory;
