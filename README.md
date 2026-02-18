@@ -38,6 +38,23 @@ devbox add github:eid-privacy/flakes#noir-versions.v1_0_0-beta_15
 devbox add github:eid-privacy/flakes#barretenberg-versions.v2_1_2
 ```
 
+# Sandboxes on Linux
+
+On Linux only, nix uses sandboxing to build flakes, which disallows
+network access.
+While this is great for reproducibility, it makes the current
+installers fail.
+To allow creating the flakes in a Linux nix, you need to create
+the following configuration:
+
+```bash
+mkdir -p ~/.config/nix
+cat - <<EOF >> ~/.config/nix/nix.conf
+experimental-features = nix-command flakes
+sandbox = relaxed
+EOF
+```
+
 # Testing
 
 If you're adding new versions, and want to make sure that the flake
