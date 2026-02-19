@@ -73,6 +73,14 @@ command to update the local versions of the flake:
 nix flake update --flake github:eid-privacy/flakes
 ```
 
+Probably 
+
+```bash
+nix flake update
+```
+
+and then pushing the flake.lock file to the repo should also work.
+
 # Versions available
 
 Currently the following versions are available:
