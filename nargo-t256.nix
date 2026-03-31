@@ -47,11 +47,15 @@ pkgs.rustPlatform.buildRustPackage {
   # nargo_cli tests require a running environment; skip them
   doCheck = false;
 
+  postInstall = ''
+    mv $out/bin/nargo $out/bin/nargo-t256
+  '';
+
   meta = with lib; {
     description = "Nargo (nargo_cli) built from eid-privacy/noir commit ${commit}";
     homepage = "https://github.com/eid-privacy/noir";
     license = licenses.mit;
     platforms = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
-    mainProgram = "nargo";
+    mainProgram = "nargo-t256";
   };
 }
