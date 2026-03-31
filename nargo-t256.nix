@@ -40,11 +40,9 @@ pkgs.rustPlatform.buildRustPackage {
     git -c commit.gpgsign=false commit -m "nix build" --allow-empty
   '';
 
-  buildInputs = with pkgs; lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [
-    Security
-    SystemConfiguration
-    CoreFoundation
-  ]);
+  buildInputs = with pkgs; lib.optionals stdenv.isDarwin [
+    libiconv
+  ];
 
   # nargo_cli tests require a running environment; skip them
   doCheck = false;
