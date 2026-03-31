@@ -39,6 +39,9 @@
         default = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.13"; };
         noir = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.13"; };
         barretenberg = pkgs.callPackage ./barretenberg.nix { version = "1.2.1"; };
+
+        # Nargo built from source (eid-privacy/noir fork, t256 branch)
+        nargo-t256 = pkgs.callPackage ./nargo-t256.nix { };
       };
 
       # Use legacyPackages for nested attribute sets
