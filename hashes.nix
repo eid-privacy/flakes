@@ -87,7 +87,7 @@
       "x86_64-linux" = "sha256-SEeugqHSX5SJBX2iwz0ave47pFfoIZAoosIzb4UPjNc=";
       "aarch64-linux" = "sha256-pnUiGoI/b62m0BsJocJsD3NWVn8xqRKiR1tuO2PUOKI=";
       "x86_64-darwin" = "sha256-kTe0m+Vr/qW2IgO3rky2fJ7MEv4WkqibrfLPS1cyP9w=";
-      "aarch64-darwin" = "sha256-akSLCJtDkYeH2/0gGzKnV/ViyAv1QtG3Wq9vydukKww=";
+      "aarch64-darwin" = "sha256-fJw/1Kmjv+BUHq+Zoc0Otg+zZjU6wQiy0Hu+c76w/LA=";
     };
   };
 }
