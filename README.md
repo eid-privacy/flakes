@@ -87,28 +87,36 @@ Currently the following versions are available:
 
 ## Noir
 - `noir` (default) - 1.0.0-beta.13
+- `noir-versions.v1_0_0-beta_8`  - 1.0.0-beta.8
 - `noir-versions.v1_0_0-beta_13` - 1.0.0-beta.13
 - `noir-versions.v1_0_0-beta_14` - 1.0.0-beta.14
 - `noir-versions.v1_0_0-beta_15` - 1.0.0-beta.15
 - `noir-versions.v1_0_0-beta_16` - 1.0.0-beta.16
 - `noir-versions.v1_0_0-beta_17` - 1.0.0-beta.17
 - `noir-versions.v1_0_0-beta_18` - 1.0.0-beta.18
+- `noir-versions.v1_0_0-beta_19` - 1.0.0-beta.19
+- `noir-versions.v1_0_0-beta_20` - 1.0.0-beta.20
+- `noir-versions.v1_0_0-beta_21` - 1.0.0-beta.21
 
+The canonical source for Noir↔Barretenberg version pairings is the
+`scripts/install_bb.sh` file in the noir-lang/noir repo at each release tag:
+
+https://github.com/noir-lang/noir/blob/<tag>/scripts/install_bb.sh
+
+Example: https://github.com/noir-lang/noir/blob/v1.0.0-beta.18/scripts/install_bb.sh
 
 ## Barretenberg
 
-For the above beta versions of noir, it installs the corresponding version
-of barretenberg, according to
-
-https://github.com/AztecProtocol/aztec-packages/blob/next/barretenberg/bbup/bb-versions.json 
-
 - `barretenberg` (default) - 1.2.1 (compatible with noir beta.13)
-- `barretenberg-versions.v1_2_1` - 1.2.1
-- `barretenberg-versions.v2_1_2` - 2.1.2
-- `barretenberg-versions.v2_1_8` - 2.1.8
-- `barretenberg-versions.beta13` - 1.2.0
-- `barretenberg-versions.beta14` - 3.0.0-nightly.20251030-2
-- `barretenberg-versions.beta15` - 3.0.0-nightly.20251104
-- `barretenberg-versions.beta16` - 3.0.0-nightly.20251104
-- `barretenberg-versions.beta17` - 3.0.0-nightly.20251104
-- `barretenberg-versions.beta18` - 3.0.0-nightly.20260102
+- `barretenberg-versions.v0_87_0` / `beta_8`  - 0.87.0 (noir beta.8)
+- `barretenberg-versions.v1_2_1`  / `beta_13` - 1.2.1  (noir beta.13)
+- `barretenberg-versions.v2_1_2`  - 2.1.2 (standalone aztec-packages stable, no Noir beta pairing)
+- `barretenberg-versions.v2_1_8`  - 2.1.8 (standalone aztec-packages stable, no Noir beta pairing)
+- `barretenberg-versions.beta_14` - 3.0.0-nightly.20251030-2
+- `barretenberg-versions.beta_15` - 3.0.0-nightly.20251104
+- `barretenberg-versions.beta_16` - 3.0.0-nightly.20251105
+- `barretenberg-versions.beta_17` - 3.0.0-nightly.20251104
+- `barretenberg-versions.beta_18` - 3.0.0-nightly.20260102
+- `barretenberg-versions.beta_19` - 4.0.0-nightly.20260120
+- `barretenberg-versions.beta_20` - 5.0.0-nightly.20260324
+- `barretenberg-versions.beta_21` - 5.0.0-nightly.20260324 (same BB as beta.20)

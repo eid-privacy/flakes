@@ -20,17 +20,27 @@
           v1_0_0-beta_16 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.16"; };
           v1_0_0-beta_17 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.17"; };
           v1_0_0-beta_18 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.18"; };
+          v1_0_0-beta_19 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.19"; };
+          v1_0_0-beta_20 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.20"; };
+          v1_0_0-beta_21 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.21"; };
         };
 
         barretenberg-versions = {
-          v1_2_1 = pkgs.callPackage ./barretenberg.nix { version = "1.2.1"; };
-          v2_1_2 = pkgs.callPackage ./barretenberg.nix { version = "2.1.2"; };
-          v2_1_8 = pkgs.callPackage ./barretenberg.nix { version = "2.1.8"; };
+          v0_87_0 = pkgs.callPackage ./barretenberg.nix { version = "0.87.0"; };
+          v1_2_1  = pkgs.callPackage ./barretenberg.nix { version = "1.2.1"; };
+          # v2_1_2 and v2_1_8 are stable aztec-packages releases not pinned by any Noir beta
+          v2_1_2  = pkgs.callPackage ./barretenberg.nix { version = "2.1.2"; };
+          v2_1_8  = pkgs.callPackage ./barretenberg.nix { version = "2.1.8"; };
+          beta_8  = pkgs.callPackage ./barretenberg.nix { version = "0.87.0"; };
+          beta_13 = pkgs.callPackage ./barretenberg.nix { version = "1.2.1"; };
           beta_14 = pkgs.callPackage ./barretenberg.nix { version = "3.0.0-nightly.20251030-2"; };
           beta_15 = pkgs.callPackage ./barretenberg.nix { version = "3.0.0-nightly.20251104"; };
           beta_16 = pkgs.callPackage ./barretenberg.nix { version = "3.0.0-nightly.20251105"; };
           beta_17 = pkgs.callPackage ./barretenberg.nix { version = "3.0.0-nightly.20251104"; };
-	  beta_18 = pkgs.callPackage ./barretenberg.nix { version = "3.0.0-nightly.20260102"; };
+          beta_18 = pkgs.callPackage ./barretenberg.nix { version = "3.0.0-nightly.20260102"; };
+          beta_19 = pkgs.callPackage ./barretenberg.nix { version = "4.0.0-nightly.20260120"; };
+          beta_20 = pkgs.callPackage ./barretenberg.nix { version = "5.0.0-nightly.20260324"; };
+          beta_21 = pkgs.callPackage ./barretenberg.nix { version = "5.0.0-nightly.20260324"; };
         };
       };
     in {
