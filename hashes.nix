@@ -108,9 +108,9 @@
       "aarch64-darwin" = "sha256-kQHV0aqo3ePSma1Vy2vcIMCZWciJxirajahpnRadkWg=";
     };
     "3.0.0-nightly.20260102" = {
-      "x86_64-linux" = "sha256-SEeugqHSX5SJBX2iwz0ave47pFfoIZAoosIzb4UPjNc=";
-      "aarch64-linux" = "sha256-pnUiGoI/b62m0BsJocJsD3NWVn8xqRKiR1tuO2PUOKI=";
-      "x86_64-darwin" = "sha256-kTe0m+Vr/qW2IgO3rky2fJ7MEv4WkqibrfLPS1cyP9w=";
+      "x86_64-linux" = "sha256-CkozGkDvGk8OL7dFw4oC4svTKppecRiNbw2T6+5Sox8=";
+      "aarch64-linux" = "sha256-Ym1LK3wIldnU8bbHSUFoXBRCD0xNII+hm+Zw9IZ4j7c=";
+      "x86_64-darwin" = "sha256-d0DM12k278EugFksf1mlLiwEWkrvSrarkCE7c0ArUh8=";
       "aarch64-darwin" = "sha256-fJw/1Kmjv+BUHq+Zoc0Otg+zZjU6wQiy0Hu+c76w/LA=";
     };
     "4.0.0-nightly.20260120" = {
