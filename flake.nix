@@ -9,6 +9,7 @@
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
+      lib = pkgs.lib;
 
       # Define version-specific packages
       versionedPackages = {
@@ -23,6 +24,14 @@
           v1_0_0-beta_19 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.19"; };
           v1_0_0-beta_20 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.20"; };
           v1_0_0-beta_21 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.21"; };
+        };
+
+        nargo-t256-versions = {
+          "0c11d1" = pkgs.callPackage ./nargo-t256.nix {
+            rev = "0c11d1b6d8cef3eeab8a276066d1ae8e4139fed6";
+            srcHash = "sha256-9KchEimHhDeL16zNmakwmUGNKfcw4MdrStyXKuau1Zs=";
+            cargoHash = "sha256-LNfYXtjkitpD/S2BqH4qKzwGjWyUJRzyRzTydKCy+38=";
+          };
         };
 
         barretenberg-versions = {

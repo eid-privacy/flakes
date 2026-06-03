@@ -105,6 +105,11 @@ https://github.com/noir-lang/noir/blob/<tag>/scripts/install_bb.sh
 
 Example: https://github.com/noir-lang/noir/blob/v1.0.0-beta.18/scripts/install_bb.sh
 
+## Nargo-t256 (eid-privacy/noir fork)
+
+- `nargo-t256` (default) - commit b7f153bc
+- `nargo-t256-versions.0c11d1` - commit 0c11d1b6
+
 ## Barretenberg
 
 - `barretenberg` (default) - 1.2.1 (compatible with noir beta.13)

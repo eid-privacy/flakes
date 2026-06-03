@@ -1,28 +1,29 @@
 { pkgs ? import <nixpkgs> { }
 , lib ? pkgs.lib
+, rev ? "b7f153bcda440ee4556629ffe41d728aba177939"
+, srcHash ? "sha256-8fSOl1kVuRuwYClQMgcEB2S2nqE0rfETt/4FFJ7lZ68="
+, cargoHash ? "sha256-aWxNXDPC11dCJyzrFQdmYDUHkkngqpakhFrmUCQwPGE="
 }:
 
 let
-  commit = "b7f153bcda440ee4556629ffe41d728aba177939";
-
   src = pkgs.fetchFromGitHub {
     owner = "eid-privacy";
     repo = "noir";
-    rev = commit;
-    hash = "sha256-8fSOl1kVuRuwYClQMgcEB2S2nqE0rfETt/4FFJ7lZ68=";
+    inherit rev;
+    hash = srcHash;
   };
 
 in
 pkgs.rustPlatform.buildRustPackage {
   pname = "nargo-t256";
-  version = "0-unstable-${builtins.substring 0 8 commit}";
+  version = "0-unstable-${builtins.substring 0 8 rev}";
 
   inherit src;
 
   # Build only the nargo_cli workspace member
   buildAndTestSubdir = "tooling/nargo_cli";
 
-  cargoHash = "sha256-aWxNXDPC11dCJyzrFQdmYDUHkkngqpakhFrmUCQwPGE=";
+  cargoHash = cargoHash;
 
   nativeBuildInputs = with pkgs; [
     pkg-config
@@ -52,7 +53,7 @@ pkgs.rustPlatform.buildRustPackage {
   '';
 
   meta = with lib; {
-    description = "Nargo (nargo_cli) built from eid-privacy/noir commit ${commit}";
+    description = "Nargo (nargo_cli) built from eid-privacy/noir commit ${rev}";
     homepage = "https://github.com/eid-privacy/noir";
     license = licenses.mit;
     platforms = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
