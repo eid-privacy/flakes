@@ -27,7 +27,7 @@
         };
 
         nargo-t256-versions = {
-          "0c11d1" = pkgs.callPackage ./nargo-t256.nix {
+          "commit_0c11d1" = pkgs.callPackage ./nargo-t256.nix {
             rev = "0c11d1b6d8cef3eeab8a276066d1ae8e4139fed6";
             srcHash = "sha256-9KchEimHhDeL16zNmakwmUGNKfcw4MdrStyXKuau1Zs=";
             cargoHash = "sha256-LNfYXtjkitpD/S2BqH4qKzwGjWyUJRzyRzTydKCy+38=";
