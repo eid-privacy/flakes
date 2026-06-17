@@ -24,6 +24,7 @@
           v1_0_0-beta_19 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.19"; };
           v1_0_0-beta_20 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.20"; };
           v1_0_0-beta_21 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.21"; };
+          v1_0_0-beta_22 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.22"; };
         };
 
         nargo-t256-versions = {
@@ -50,6 +51,7 @@
           beta_19 = pkgs.callPackage ./barretenberg.nix { version = "4.0.0-nightly.20260120"; };
           beta_20 = pkgs.callPackage ./barretenberg.nix { version = "5.0.0-nightly.20260324"; };
           beta_21 = pkgs.callPackage ./barretenberg.nix { version = "5.0.0-nightly.20260324"; };
+          beta_22 = pkgs.callPackage ./barretenberg.nix { version = "5.0.0-nightly.20260522"; githubRepo = "barretenberg"; };
         };
       };
     in {

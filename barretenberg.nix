@@ -1,6 +1,7 @@
 { pkgs ? import <nixpkgs> { }
 , lib ? pkgs.lib
 , version ? "1.2.1"
+, githubRepo ? "aztec-packages"
 }:
 
 let
@@ -32,7 +33,7 @@ let
   info = platformInfo.${pkgs.stdenv.hostPlatform.system} or (throw "Unsupported platform: ${pkgs.stdenv.hostPlatform.system}");
 
   # Construct the download URL
-  url = "https://github.com/AztecProtocol/aztec-packages/releases/download/v${version}/barretenberg-${info.arch}-${info.platform}.tar.gz";
+  url = "https://github.com/AztecProtocol/${githubRepo}/releases/download/v${version}/barretenberg-${info.arch}-${info.platform}.tar.gz";
 
   # Get hash for this version/platform, or use fakeHash for new versions
   hash = hashes.${version}.${pkgs.stdenv.hostPlatform.system} or lib.fakeHash;

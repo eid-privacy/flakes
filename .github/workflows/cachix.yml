@@ -36,7 +36,7 @@ jobs:
           SYSTEM=$(nix eval --impure --raw --expr builtins.currentSystem)
           for ver in v1_0_0-beta_8 v1_0_0-beta_13 v1_0_0-beta_14 v1_0_0-beta_15 \
                      v1_0_0-beta_16 v1_0_0-beta_17 v1_0_0-beta_18 v1_0_0-beta_19 \
-                     v1_0_0-beta_20 v1_0_0-beta_21; do
+                     v1_0_0-beta_20 v1_0_0-beta_21 v1_0_0-beta_22; do
             nix build ".#legacyPackages.${SYSTEM}.noir-versions.${ver}"
           done
 
@@ -45,7 +45,7 @@ jobs:
           SYSTEM=$(nix eval --impure --raw --expr builtins.currentSystem)
           for ver in v0_87_0 v1_2_1 v2_1_2 v2_1_8 \
                      beta_8 beta_13 beta_14 beta_15 beta_16 beta_17 \
-                     beta_18 beta_19 beta_20 beta_21; do
+                     beta_18 beta_19 beta_20 beta_21 beta_22; do
             nix build ".#legacyPackages.${SYSTEM}.barretenberg-versions.${ver}"
           done
 

@@ -136,6 +136,7 @@ Currently the following versions are available:
 - `noir-versions.v1_0_0-beta_19` - 1.0.0-beta.19
 - `noir-versions.v1_0_0-beta_20` - 1.0.0-beta.20
 - `noir-versions.v1_0_0-beta_21` - 1.0.0-beta.21
+- `noir-versions.v1_0_0-beta_22` - 1.0.0-beta.22
 
 The canonical source for Noir↔Barretenberg version pairings is the
 `scripts/install_bb.sh` file in the noir-lang/noir repo at each release tag:
@@ -164,3 +165,4 @@ Example: https://github.com/noir-lang/noir/blob/v1.0.0-beta.18/scripts/install_b
 - `barretenberg-versions.beta_19` - 4.0.0-nightly.20260120
 - `barretenberg-versions.beta_20` - 5.0.0-nightly.20260324
 - `barretenberg-versions.beta_21` - 5.0.0-nightly.20260324 (same BB as beta.20)
+- `barretenberg-versions.beta_22` - 5.0.0-nightly.20260522
