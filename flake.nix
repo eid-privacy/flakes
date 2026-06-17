@@ -33,8 +33,8 @@
             srcHash = "sha256-9KchEimHhDeL16zNmakwmUGNKfcw4MdrStyXKuau1Zs=";
             cargoHash = "sha256-LNfYXtjkitpD/S2BqH4qKzwGjWyUJRzyRzTydKCy+38=";
           };
-          "v_2026_06_17" = pkgs.callPackage ./nargo-t256.nix {
-            rev = "e9a577066f6ef887a3d70c8230d03d180057925c";
+          "t256-v0_1" = pkgs.callPackage ./nargo-t256.nix {
+            rev = "t256-v0.1";
             srcHash = "sha256-54L9F98ZjefI6DD2HkeP/ebsGEGISMs5WLNlI33y5/8=";
             cargoHash = "sha256-LNfYXtjkitpD/S2BqH4qKzwGjWyUJRzyRzTydKCy+38=";
           };
