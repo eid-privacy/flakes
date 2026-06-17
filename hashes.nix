@@ -96,7 +96,7 @@
       "aarch64-darwin" = "sha256-4x2XvR60zVRfFMrg+vhiEeP601y+sWTqJdQcUzHyons=";
     };
     "3.0.0-nightly.20251030-2" = {
-      "x86_64-linux" = "sha256-NakQkT36MWmJ5a4oYce33waX1xwmhxKhprbr7nPRKew=";
+      "x86_64-linux" = "sha256-ptiHQGOIRsDvWe2GlDPnWRA677wIZmZdjgH7TD9UU7k=";
       "aarch64-linux" = "sha256-EulriUMoG6cD2SwW3MiRTfhwUINajxOpY/DysFnDM5Y=";
       "x86_64-darwin" = "sha256-Piz6byJ/lX/9gNxVY7tvU3Tk1mvSQW428GQbcmX1018=";
       "aarch64-darwin" = "sha256-SveDhJ3CfkWDFK3Du8l1lg/1RoZPR2Q66edTU1TZFUw=";
