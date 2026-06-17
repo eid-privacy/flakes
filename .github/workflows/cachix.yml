@@ -1,0 +1,55 @@
+name: Build and push to Cachix
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@v14
+        with:
+          extra-conf: |
+            sandbox = relaxed
+
+      - uses: cachix/cachix-action@v15
+        with:
+          name: eid-privacy
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+      - name: Build default packages
+        run: |
+          nix build .#noir
+          nix build .#barretenberg
+          nix build .#nargo-t256
+
+      - name: Build versioned Noir packages
+        run: |
+          SYSTEM=$(nix eval --impure --raw --expr builtins.currentSystem)
+          for ver in v1_0_0-beta_8 v1_0_0-beta_13 v1_0_0-beta_14 v1_0_0-beta_15 \
+                     v1_0_0-beta_16 v1_0_0-beta_17 v1_0_0-beta_18 v1_0_0-beta_19 \
+                     v1_0_0-beta_20 v1_0_0-beta_21; do
+            nix build ".#legacyPackages.${SYSTEM}.noir-versions.${ver}"
+          done
+
+      - name: Build versioned Barretenberg packages
+        run: |
+          SYSTEM=$(nix eval --impure --raw --expr builtins.currentSystem)
+          for ver in v0_87_0 v1_2_1 v2_1_2 v2_1_8 \
+                     beta_8 beta_13 beta_14 beta_15 beta_16 beta_17 \
+                     beta_18 beta_19 beta_20 beta_21; do
+            nix build ".#legacyPackages.${SYSTEM}.barretenberg-versions.${ver}"
+          done
+
+      - name: Build versioned nargo-t256 packages
+        run: |
+          SYSTEM=$(nix eval --impure --raw --expr builtins.currentSystem)
+          nix build ".#legacyPackages.${SYSTEM}.nargo-t256-versions.commit_0c11d1"

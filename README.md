@@ -38,6 +38,45 @@ devbox add github:eid-privacy/flakes#noir-versions.v1_0_0-beta_15
 devbox add github:eid-privacy/flakes#barretenberg-versions.v2_1_2
 ```
 
+# Binary Cache
+
+Precompiled binaries are available via [Cachix](https://cachix.org), so you
+don't have to build packages from source.
+
+## Configuring devbox
+
+Add `nixConfig` to your project's `devbox.json`:
+
+```json
+{
+  "packages": [
+    "github:eid-privacy/flakes#noir"
+  ],
+  "nixConfig": {
+    "extra-substituters": "https://eid-privacy.cachix.org",
+    "extra-trusted-public-keys": "eid-privacy.cachix.org-1:lxRzvjcWd/A6Wew1tq0IK6OIMVWNJKUTy4s7EKb6C2A="
+  }
+}
+```
+
+The public key is `eid-privacy.cachix.org-1:lxRzvjcWd/A6Wew1tq0IK6OIMVWNJKUTy4s7EKb6C2A=`.
+
+## Configuring Nix directly
+
+Add to `~/.config/nix/nix.conf` (or `/etc/nix/nix.conf` for system-wide):
+
+```
+substituters = https://cache.nixos.org https://eid-privacy.cachix.org
+trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= eid-privacy.cachix.org-1:lxRzvjcWd/A6Wew1tq0IK6OIMVWNJKUTy4s7EKb6C2A=
+```
+
+Or use `cachix use` which configures this automatically:
+
+```bash
+nix profile install nixpkgs#cachix
+cachix use eid-privacy
+```
+
 # Sandboxes on Linux
 
 On Linux only, nix uses sandboxing to build flakes, which disallows
