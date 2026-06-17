@@ -160,7 +160,7 @@ Example: https://github.com/noir-lang/noir/blob/v1.0.0-beta.18/scripts/install_b
 - `barretenberg-versions.v2_1_8`  - 2.1.8 (standalone aztec-packages stable, no Noir beta pairing)
 - `barretenberg-versions.beta_14` - 3.0.0-nightly.20251030-2
 - `barretenberg-versions.beta_15` - 3.0.0-nightly.20251104
-- `barretenberg-versions.beta_16` - 3.0.0-nightly.20251105
+- `barretenberg-versions.beta_16` - 3.0.0-nightly.20251104 (20251105 release was deleted upstream)
 - `barretenberg-versions.beta_17` - 3.0.0-nightly.20251104
 - `barretenberg-versions.beta_18` - 3.0.0-nightly.20260102
 - `barretenberg-versions.beta_19` - 4.0.0-nightly.20260120
