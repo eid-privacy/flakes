@@ -148,7 +148,8 @@ Example: https://github.com/noir-lang/noir/blob/v1.0.0-beta.18/scripts/install_b
 ## Nargo-t256 (eid-privacy/noir fork)
 
 - `nargo-t256` (default) - commit b7f153bc
-- `nargo-t256-versions.0c11d1` - commit 0c11d1b6
+- `nargo-t256-versions.0c11d1`    - commit 0c11d1b6
+- `nargo-t256-versions.v_2026_06_17` - commit e9a577066f
 
 ## Barretenberg
 
