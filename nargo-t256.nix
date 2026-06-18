@@ -1,8 +1,8 @@
 { pkgs ? import <nixpkgs> { }
 , lib ? pkgs.lib
-, rev ? "b7f153bcda440ee4556629ffe41d728aba177939"
-, srcHash ? "sha256-8fSOl1kVuRuwYClQMgcEB2S2nqE0rfETt/4FFJ7lZ68="
-, cargoHash ? "sha256-aWxNXDPC11dCJyzrFQdmYDUHkkngqpakhFrmUCQwPGE="
+, rev ? "t256-v0.2"
+, srcHash ? "sha256-0BomTd5b9PF0QijXD3kKDrMUaj54PCdRJPSR1Z/2rck="
+, cargoHash ? "sha256-6O1ILolDDJ+YfclFXm71a6tw38PKWJ/supw26H/sA90="
 }:
 
 let

@@ -38,6 +38,11 @@
             srcHash = "sha256-54L9F98ZjefI6DD2HkeP/ebsGEGISMs5WLNlI33y5/8=";
             cargoHash = "sha256-LNfYXtjkitpD/S2BqH4qKzwGjWyUJRzyRzTydKCy+38=";
           };
+          "t256-v0_2" = pkgs.callPackage ./nargo-t256.nix {
+            rev = "t256-v0.2";
+            srcHash = "sha256-0BomTd5b9PF0QijXD3kKDrMUaj54PCdRJPSR1Z/2rck=";
+            cargoHash = "sha256-6O1ILolDDJ+YfclFXm71a6tw38PKWJ/supw26H/sA90=";
+          };
         };
 
         barretenberg-versions = {
@@ -67,7 +72,11 @@
         barretenberg = pkgs.callPackage ./barretenberg.nix { version = "1.2.1"; };
 
         # Nargo built from source (eid-privacy/noir fork, t256 branch)
-        nargo-t256 = pkgs.callPackage ./nargo-t256.nix { };
+        nargo-t256 = pkgs.callPackage ./nargo-t256.nix {
+          rev = "t256-v0.2";
+          srcHash = "sha256-0BomTd5b9PF0QijXD3kKDrMUaj54PCdRJPSR1Z/2rck=";
+          cargoHash = "sha256-6O1ILolDDJ+YfclFXm71a6tw38PKWJ/supw26H/sA90=";
+        };
       };
 
       # Use legacyPackages for nested attribute sets
