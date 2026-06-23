@@ -27,32 +27,25 @@ jobs:
 
       - name: Build default packages
         run: |
-          nix build .#noir
-          nix build .#barretenberg
-          nix build .#nargo-t256
-
-      - name: Build versioned Noir packages
-        run: |
           SYSTEM=$(nix eval --impure --raw --expr builtins.currentSystem)
-          for ver in v1_0_0-beta_8 v1_0_0-beta_13 v1_0_0-beta_14 v1_0_0-beta_15 \
-                     v1_0_0-beta_16 v1_0_0-beta_17 v1_0_0-beta_18 v1_0_0-beta_19 \
-                     v1_0_0-beta_20 v1_0_0-beta_21 v1_0_0-beta_22; do
-            nix build ".#legacyPackages.${SYSTEM}.noir-versions.${ver}"
+          # Enumerate all attributes under packages.<system> directly from the flake,
+          # so new packages added to flake.nix are picked up automatically.
+          for pkg in $(nix eval --json ".#packages.${SYSTEM}" --apply builtins.attrNames | jq -r '.[]'); do
+            echo "::group::nix build .#${pkg}"
+            nix build ".#packages.${SYSTEM}.\"${pkg}\""
+            echo "::endgroup::"
           done
 
-      - name: Build versioned Barretenberg packages
+      - name: Build versioned packages
         run: |
           SYSTEM=$(nix eval --impure --raw --expr builtins.currentSystem)
-          for ver in v0_87_0 v1_2_1 v2_1_2 v2_1_8 \
-                     beta_8 beta_13 beta_14 beta_15 beta_16 beta_17 \
-                     beta_18 beta_19 beta_20 beta_21 beta_22; do
-            nix build ".#legacyPackages.${SYSTEM}.barretenberg-versions.${ver}"
+          # Enumerate every version set under legacyPackages.<system> and every
+          # version inside it, straight from the flake. Adding a new version in
+          # flake.nix is enough — no need to touch this workflow.
+          for set in $(nix eval --json ".#legacyPackages.${SYSTEM}" --apply builtins.attrNames | jq -r '.[]'); do
+            for ver in $(nix eval --json ".#legacyPackages.${SYSTEM}.\"${set}\"" --apply builtins.attrNames | jq -r '.[]'); do
+              echo "::group::nix build .#legacyPackages.${SYSTEM}.${set}.${ver}"
+              nix build ".#legacyPackages.${SYSTEM}.\"${set}\".\"${ver}\""
+              echo "::endgroup::"
+            done
           done
-
-      - name: Build versioned nargo-t256 packages
-        run: |
-          SYSTEM=$(nix eval --impure --raw --expr builtins.currentSystem)
-          nix build ".#legacyPackages.${SYSTEM}.nargo-t256-versions.commit_0c11d1"
-          nix build ".#legacyPackages.${SYSTEM}.nargo-t256-versions.t256-v0_1"
-          nix build ".#legacyPackages.${SYSTEM}.nargo-t256-versions.t256-v0_2"
-          nix build ".#legacyPackages.${SYSTEM}.nargo-t256-versions.t256-v0_22"

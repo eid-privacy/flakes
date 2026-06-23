@@ -206,6 +206,11 @@ mkdir -p ~/.config/nix
 cat - <<EOF >> ~/.config/nix/nix.conf
 experimental-features = nix-command flakes
 sandbox = relaxed
+filter-syscalls = false
+
+# Add the following lines for cachix binaries
+extra-substituters = https://eid-privacy.cachix.org
+extra-trusted-public-keys = eid-privacy.cachix.org-1:lxRzvjcWd/A6Wew1tq0IK6OIMVWNJKUTy4s7EKb6C2A=
 EOF
 ```
 
@@ -217,6 +222,23 @@ builds:
 ```bash
 nix build .#noir-versions.v1_0_0-beta_15
 ```
+
+## Continuous integration (Cachix)
+
+The `.github/workflows/cachix.yml` workflow builds every package and pushes the
+results to the `eid-privacy` Cachix cache on every push to `main` (and on pull
+requests, without pushing for forks without the secret).
+
+The workflow **discovers versions automatically** from `flake.nix` — it does not
+contain a hardcoded list. It enumerates the attributes with
+`nix eval ... --apply builtins.attrNames`:
+
+- every attribute under `packages.<system>` (the default packages), and
+- every version inside each set under `legacyPackages.<system>`
+  (`noir-versions`, `barretenberg-versions`, `nargo-t256-versions`, …).
+
+So adding a new version (or a whole new version set) to `flake.nix` is enough —
+the next CI run picks it up and caches it with no change to the workflow.
 
 ## Updating
 
