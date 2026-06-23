@@ -61,6 +61,17 @@ Add `nixConfig` to your project's `devbox.json`:
 
 The public key is `eid-privacy.cachix.org-1:lxRzvjcWd/A6Wew1tq0IK6OIMVWNJKUTy4s7EKb6C2A=`.
 
+> **Important — this only works if you are a *trusted* Nix user.** On a
+> multi-user (daemon) Nix install, the daemon **ignores** substituters and
+> public keys supplied by the client — whether they come from `devbox.json`
+> `nixConfig`, a flake's own `nixConfig`, or `--extra-substituters` on the
+> command line — unless your user is listed in `trusted-users`. When this
+> happens Nix prints `ignoring untrusted substituter ...` and silently
+> **builds from source instead**. In that case the `nixConfig` block above has
+> no effect and you must use [Configuring Nix directly](#configuring-nix-directly)
+> below (which needs root once) or be added to `trusted-users`. On a
+> single-user Nix install there is no such restriction and `nixConfig` works as-is.
+
 ## Configuring Nix directly
 
 Add to `~/.config/nix/nix.conf` (or `/etc/nix/nix.conf` for system-wide):
@@ -76,6 +87,110 @@ Or use `cachix use` which configures this automatically:
 nix profile install nixpkgs#cachix
 cachix use eid-privacy
 ```
+
+## Verifying the cache is actually used
+
+If a package (notably `nargo-t256`, which is built from source) keeps
+compiling instead of downloading, check whether your Nix is actually willing
+to use the cache:
+
+```bash
+nix build --dry-run \
+  --extra-substituters "https://eid-privacy.cachix.org" \
+  --extra-trusted-public-keys "eid-privacy.cachix.org-1:lxRzvjcWd/A6Wew1tq0IK6OIMVWNJKUTy4s7EKb6C2A=" \
+  github:eid-privacy/flakes#nargo-t256-versions.t256-v0_2
+```
+
+- **`... will be fetched`** with no warning → the cache works; `devbox.json`
+  `nixConfig` is enough.
+- **`warning: ignoring untrusted substituter ...`** → you are an untrusted
+  user on a daemon install. The cache *contains* the binary, but Nix refuses
+  to use it. Fix it via [Configuring Nix directly](#configuring-nix-directly)
+  or by being added to `trusted-users` — see the note under
+  [Configuring devbox](#configuring-devbox).
+
+Note that `noir` and `barretenberg` download a prebuilt release binary via
+`fetchurl` (a fixed-output derivation), so they are fetched directly from
+GitHub and never depend on the substituter. Only `nargo-t256` is compiled
+from source, which is why it is the one that benefits from — and depends on —
+the cache.
+
+## Inside containers (e.g. the devbox Docker image)
+
+Two extra wrinkles appear in containers:
+
+- `cachix use` may abort with `$USER must be set`. Export it first, e.g.
+  `USER=root cachix use eid-privacy`, or run the binary by absolute path under
+  `sudo`: `sudo env USER=root "$(command -v cachix)" use eid-privacy`.
+- The container user (e.g. `devbox`) is usually **not** trusted, so the
+  trusted-user rule above applies. The robust fix is to bake the cache into
+  the image **at build time** (when you are root), not at runtime:
+
+```dockerfile
+USER root
+RUN printf '%s\n' \
+  'extra-substituters = https://eid-privacy.cachix.org' \
+  'extra-trusted-public-keys = eid-privacy.cachix.org-1:lxRzvjcWd/A6Wew1tq0IK6OIMVWNJKUTy4s7EKb6C2A=' \
+  >> /etc/nix/nix.conf
+# (alternatively, grant trust instead: echo 'trusted-users = root devbox' >> /etc/nix/nix.conf)
+USER devbox
+```
+
+## Using the cache in GitHub Actions (devbox-install-action)
+
+When using [`jetify-com/devbox-install-action`](https://github.com/jetify-com/devbox-install-action),
+the action installs Nix and Devbox for you. On GitHub-hosted runners the Nix
+installer marks the runner user as trusted (`NIX_INSTALLER_TRUST_RUNNER_USER`),
+so the `nixConfig` block already in your `devbox.json` is honored and the cache
+is used automatically.
+
+The catch: the action realises the packages itself. Its **last internal step**
+runs `devbox run --config=. -- echo "Packages installed!"`, so `nargo-t256` is
+built (or fetched) *during the action*. Any "trust the cache" step you add
+**after** the action therefore runs too late — the binary is already in the
+store and the substituter was never consulted on that first run.
+
+So the substituter must be in place **before** the action runs. The action
+provides exactly the hook for this: the `extra-nix-config` input is written to
+`~/.config/nix/nix.conf` before its `devbox run` step (and the trusted runner
+user means that per-user config is honored). Pass the cache there:
+
+```yaml
+name: build
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Devbox + Nix
+        uses: jetify-com/devbox-install-action@v0.13.0
+        with:
+          project-path: .
+          enable-cache: 'true'   # caches the Nix store between runs (separate from the binary cache)
+          extra-nix-config: |
+            extra-substituters = https://eid-privacy.cachix.org
+            extra-trusted-public-keys = eid-privacy.cachix.org-1:lxRzvjcWd/A6Wew1tq0IK6OIMVWNJKUTy4s7EKb6C2A=
+
+      - name: Build
+        run: devbox run build
+```
+
+Notes:
+
+- Use the action's `extra-nix-config` input — **not** a separate `run:` step
+  after it. The action's own `devbox run` (its final internal step) is the first
+  store realisation, so the substituter has to be configured by the time the
+  action reaches that step. `extra-nix-config` is written before it; a later
+  step is not.
+- `enable-cache: 'true'` caches the Nix store via the GitHub Actions cache,
+  which complements the Cachix binary cache — the former avoids re-downloading
+  on subsequent runs, the latter avoids building on the first run.
+- Pull-only access (downloading) needs **no** auth token. A `CACHIX_AUTH_TOKEN`
+  is only required to *push* builds, which is what this repo's own
+  `.github/workflows/cachix.yml` does.
 
 # Sandboxes on Linux
 
