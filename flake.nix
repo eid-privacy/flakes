@@ -48,6 +48,11 @@
             srcHash = "sha256-ybarJDT69udlAfJqJ3u12gwGC5Ieh48f8+8X68WvNls=";
             cargoHash = "sha256-sSOT2+pIJCT+0RiP7dGW4fd0HVaPR3foR5WEq0uWooE=";
           };
+          "t256-v0_22-1" = pkgs.callPackage ./nargo-t256.nix {
+            rev = "t256-v0.22-1";
+            srcHash = "sha256-kduSlSyWiVseGIndthhMoJuHb35O84ot29i6ezcGwFQ=";
+            cargoHash = "sha256-sSOT2+pIJCT+0RiP7dGW4fd0HVaPR3foR5WEq0uWooE=";
+          };
         };
 
         barretenberg-versions = {
