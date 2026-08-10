@@ -7,8 +7,10 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FLAKE_FILE="$SCRIPT_DIR/flake.nix"
 OUTPUT_FILE="$SCRIPT_DIR/hashes.nix"
+NARGO_T256_FILE="$SCRIPT_DIR/nargo-t256.nix"
 TEMP_DIR=$(mktemp -d)
 JOBS_FILE="$TEMP_DIR/jobs"
+FAKE_HASH="sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
 
 # Color output
 GREEN='\033[0;32m'
@@ -38,6 +40,13 @@ parse_bb_versions() {
   grep -A 0 'version = "' "$FLAKE_FILE" | \
     grep 'barretenberg.nix' | \
     sed -E 's/.*version = "([^"]+)".*/\1/' | \
+    sort -u
+}
+
+# Parse flake.nix to extract nargo-t256 revs (git revs/tags/commits)
+parse_nargo_t256_revs() {
+  grep -oE 'rev = "[^"]+"' "$FLAKE_FILE" | \
+    sed -E 's/rev = "([^"]+)"/\1/' | \
     sort -u
 }
 
@@ -147,6 +156,110 @@ fetch_hash() {
   compute_hash "$url" "$tool" "$version" "$platform" &
 }
 
+# Load an existing nargo-t256 hash field (srcHash or cargoHash) from hashes.nix
+get_existing_nargo_t256_hash() {
+  local rev=$1
+  local field=$2
+
+  if [[ ! -f "$OUTPUT_FILE" ]]; then
+    echo ""
+    return
+  fi
+
+  local hash
+  hash=$(nix-instantiate --eval --strict --expr \
+    "(import $OUTPUT_FILE).nargo-t256.\"$rev\".\"$field\" or \"\"" 2>/dev/null | \
+    tr -d '"' || echo "")
+
+  echo "$hash"
+}
+
+# Build a Nix expression, evaluate it with a fake fixed-output hash, and scrape the
+# real hash out of the resulting hash-mismatch error. This is the standard trick for
+# computing FOD hashes and needs no extra prefetch tooling.
+extract_real_hash_from_mismatch() {
+  local expr=$1
+  local out
+  out=$(nix build --impure --no-link --expr "$expr" 2>&1 || true)
+  echo "$out" | grep -oE 'got:[[:space:]]+sha256-[A-Za-z0-9+/=]+' | tail -1 | awk '{print $2}'
+}
+
+# Compute srcHash + cargoHash for one nargo-t256 rev
+compute_nargo_t256_hashes() {
+  local rev=$1
+  local src_output_file="$TEMP_DIR/nargo-t256_${rev}_srcHash.hash"
+  local cargo_output_file="$TEMP_DIR/nargo-t256_${rev}_cargoHash.hash"
+
+  local existing_src existing_cargo
+  existing_src=$(get_existing_nargo_t256_hash "$rev" "srcHash")
+  existing_cargo=$(get_existing_nargo_t256_hash "$rev" "cargoHash")
+
+  if is_valid_hash "$existing_src" && is_valid_hash "$existing_cargo"; then
+    echo -e "${YELLOW}[SKIP]${NC} nargo-t256 $rev (hashes exist)" >&2
+    echo "$existing_src" > "$src_output_file"
+    echo "$existing_cargo" > "$cargo_output_file"
+    echo "SKIPPED" >> "$JOBS_FILE.status"
+    echo "SKIPPED" >> "$JOBS_FILE.status"
+    return 0
+  fi
+
+  echo -e "${GREEN}[FETCH]${NC} nargo-t256 $rev (srcHash)" >&2
+  local src_hash
+  src_hash=$(extract_real_hash_from_mismatch \
+    "(import <nixpkgs> {}).fetchFromGitHub { owner = \"eid-privacy\"; repo = \"noir\"; rev = \"$rev\"; hash = \"$FAKE_HASH\"; }")
+
+  if [[ -z "$src_hash" ]]; then
+    echo -e "${RED}[FAIL]${NC} nargo-t256 $rev (srcHash, using placeholder)" >&2
+    echo "$FAKE_HASH" > "$src_output_file"
+    echo "FAILED" >> "$JOBS_FILE.status"
+    echo "FAILED" >> "$JOBS_FILE.status"
+    return 0
+  fi
+  echo -e "${GREEN}[OK]${NC} nargo-t256 $rev (srcHash)" >&2
+  echo "$src_hash" > "$src_output_file"
+  echo "SUCCESS" >> "$JOBS_FILE.status"
+
+  echo -e "${GREEN}[FETCH]${NC} nargo-t256 $rev (cargoHash)" >&2
+  local cargo_hash
+  cargo_hash=$(extract_real_hash_from_mismatch \
+    "((import <nixpkgs> {}).callPackage $NARGO_T256_FILE { rev = \"$rev\"; srcHash = \"$src_hash\"; cargoHash = \"$FAKE_HASH\"; }).cargoDeps")
+
+  if [[ -z "$cargo_hash" ]]; then
+    echo -e "${RED}[FAIL]${NC} nargo-t256 $rev (cargoHash, using placeholder)" >&2
+    echo "$FAKE_HASH" > "$cargo_output_file"
+    echo "FAILED" >> "$JOBS_FILE.status"
+    return 0
+  fi
+  echo -e "${GREEN}[OK]${NC} nargo-t256 $rev (cargoHash)" >&2
+  echo "$cargo_hash" > "$cargo_output_file"
+  echo "SUCCESS" >> "$JOBS_FILE.status"
+}
+
+# Fetch nargo-t256 hashes in a background job
+fetch_nargo_t256_hash() {
+  local rev=$1
+
+  compute_nargo_t256_hashes "$rev" &
+}
+
+# Build the nargo-t256 section of hashes.nix from computed hashes
+build_nargo_t256_hashes_file() {
+  local revs=("$@")
+
+  for rev in "${revs[@]}"; do
+    local src_file="$TEMP_DIR/nargo-t256_${rev}_srcHash.hash"
+    local cargo_file="$TEMP_DIR/nargo-t256_${rev}_cargoHash.hash"
+    local src_hash cargo_hash
+    src_hash=$([[ -f "$src_file" ]] && cat "$src_file" || echo "$FAKE_HASH")
+    cargo_hash=$([[ -f "$cargo_file" ]] && cat "$cargo_file" || echo "$FAKE_HASH")
+
+    echo "    \"${rev}\" = {"
+    echo "      srcHash = \"${src_hash}\";"
+    echo "      cargoHash = \"${cargo_hash}\";"
+    echo "    };"
+  done
+}
+
 # Build hashes.nix from computed hashes
 build_hashes_file() {
   local tool=$1
@@ -185,8 +298,14 @@ main() {
     bb_versions+=("$line")
   done < <(parse_bb_versions)
 
+  nargo_t256_revs=()
+  while IFS= read -r line; do
+    nargo_t256_revs+=("$line")
+  done < <(parse_nargo_t256_revs)
+
   echo "Found ${#noir_versions[@]} Noir versions: ${noir_versions[*]}" >&2
   echo "Found ${#bb_versions[@]} Barretenberg versions: ${bb_versions[*]}" >&2
+  echo "Found ${#nargo_t256_revs[@]} nargo-t256 revs: ${nargo_t256_revs[*]}" >&2
   echo "" >&2
 
   # Initialize status file
@@ -196,7 +315,7 @@ main() {
   platforms=("x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin")
 
   # Calculate total jobs
-  TOTAL=$(( ${#noir_versions[@]} * ${#platforms[@]} + ${#bb_versions[@]} * ${#platforms[@]} ))
+  TOTAL=$(( ${#noir_versions[@]} * ${#platforms[@]} + ${#bb_versions[@]} * ${#platforms[@]} + ${#nargo_t256_revs[@]} * 2 ))
 
   echo "Fetching hashes (this may take a while)..." >&2
   echo "" >&2
@@ -220,6 +339,11 @@ main() {
     done
   done
 
+  # Fetch nargo-t256 hashes (srcHash + cargoHash per rev)
+  for rev in "${nargo_t256_revs[@]}"; do
+    fetch_nargo_t256_hash "$rev"
+  done
+
   # Wait for all background jobs
   echo "Waiting for all downloads to complete..." >&2
   wait
@@ -241,6 +365,10 @@ main() {
     echo "{"
     echo "  noir = {"
     build_hashes_file "noir" "${noir_versions[@]}"
+    echo "  };"
+    echo ""
+    echo "  nargo-t256 = {"
+    build_nargo_t256_hashes_file "${nargo_t256_revs[@]}"
     echo "  };"
     echo ""
     echo "  barretenberg = {"
