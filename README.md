@@ -74,14 +74,20 @@ The public key is `eid-privacy.cachix.org-1:lxRzvjcWd/A6Wew1tq0IK6OIMVWNJKUTy4s7
 
 ## Configuring Nix directly
 
-Add to `~/.config/nix/nix.conf` (or `/etc/nix/nix.conf` for system-wide):
+Add to `~/.config/nix/nix.conf` for a per-user config, or system-wide to
+`/etc/nix/nix.custom.conf`:
 
 ```
-substituters = https://cache.nixos.org https://eid-privacy.cachix.org
-trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= eid-privacy.cachix.org-1:lxRzvjcWd/A6Wew1tq0IK6OIMVWNJKUTy4s7EKb6C2A=
+extra-substituters = https://eid-privacy.cachix.org
+extra-trusted-public-keys = eid-privacy.cachix.org-1:lxRzvjcWd/A6Wew1tq0IK6OIMVWNJKUTy4s7EKb6C2A=
 ```
 
-Or use `cachix use` which configures this automatically:
+The `extra-` prefix appends to the existing `substituters`/`trusted-public-keys`
+list (e.g. `cache.nixos.org`) instead of replacing it, so there's no need to
+re-list the defaults.
+
+Or use `cachix use` which configures this automatically, but needs the user to
+be added as a `trusted-users` to `nix.custom.conf`:
 
 ```bash
 nix profile install nixpkgs#cachix
