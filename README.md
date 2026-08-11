@@ -276,6 +276,7 @@ Currently the following versions are available:
 - `noir-versions.v1_0_0-beta_22` - 1.0.0-beta.22
 - `noir-versions.v1_0_0-beta_23` - 1.0.0-beta.23
 - `noir-versions.v1_0_0-beta_24` - 1.0.0-beta.24
+- `noir-versions.v1_0_0-beta_25` - 1.0.0-beta.25
 
 The canonical source for Noir↔Barretenberg version pairings is the
 `scripts/install_bb.sh` file in the noir-lang/noir repo at each release tag:
@@ -294,6 +295,7 @@ Example: https://github.com/noir-lang/noir/blob/v1.0.0-beta.18/scripts/install_b
 - `nargo-t256-versions.t256-v0_22-1` - tag t256-v0.22-1
 - `nargo-t256-versions.t256-v0_23` - tag t256-v0.23 (noir beta.23)
 - `nargo-t256-versions.t256-v0_24` - tag t256-v0.24 (noir beta.24)
+- `nargo-t256-versions.t256-v0_25` - tag t256-v0.25 (noir beta.25)
 
 ## Barretenberg
 
@@ -313,3 +315,4 @@ Example: https://github.com/noir-lang/noir/blob/v1.0.0-beta.18/scripts/install_b
 - `barretenberg-versions.beta_22` - 5.0.0-nightly.20260522
 - `barretenberg-versions.beta_23` - 5.0.0-nightly.20260522 (same BB as beta.22)
 - `barretenberg-versions.beta_24` - 5.0.0 (first stable BB release pinned by a Noir beta; per noir-lang/noir's scripts/install_bb.sh at v1.0.0-beta.24)
+- `barretenberg-versions.beta_25` - 5.0.0 (same BB as beta.24)
