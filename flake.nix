@@ -26,6 +26,7 @@
           v1_0_0-beta_21 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.21"; };
           v1_0_0-beta_22 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.22"; };
           v1_0_0-beta_23 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.23"; };
+          v1_0_0-beta_24 = pkgs.callPackage ./noir.nix { version = "1.0.0-beta.24"; };
         };
 
         nargo-t256-versions = {
@@ -37,6 +38,7 @@
           "t256-v0_22" = pkgs.callPackage ./nargo-t256.nix { rev = "t256-v0.22"; };
           "t256-v0_22-1" = pkgs.callPackage ./nargo-t256.nix { rev = "t256-v0.22-1"; };
           "t256-v0_23" = pkgs.callPackage ./nargo-t256.nix { rev = "t256-v0.23"; };
+          "t256-v0_24" = pkgs.callPackage ./nargo-t256.nix { rev = "t256-v0.24"; };
         };
 
         barretenberg-versions = {
@@ -57,6 +59,7 @@
           beta_21 = pkgs.callPackage ./barretenberg.nix { version = "5.0.0-nightly.20260324"; };
           beta_22 = pkgs.callPackage ./barretenberg.nix { version = "5.0.0-nightly.20260522"; githubRepo = "barretenberg"; };
           beta_23 = pkgs.callPackage ./barretenberg.nix { version = "5.0.0-nightly.20260522"; githubRepo = "barretenberg"; };
+          beta_24 = pkgs.callPackage ./barretenberg.nix { version = "5.0.0"; githubRepo = "barretenberg"; };
         };
       };
     in {
