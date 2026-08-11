@@ -242,20 +242,14 @@ the next CI run picks it up and caches it with no change to the workflow.
 
 ## Updating
 
-Once a new version is published on github, I have to run the following
-command to update the local versions of the flake:
+Once a new version is published on github and the binary is built and
+pushed to cachix, run the following command:
 
 ```bash
-nix flake update --flake github:eid-privacy/flakes
+nix flake metadata github:eid-privacy/flakes --refresh
 ```
 
-Probably 
-
-```bash
-nix flake update
-```
-
-and then pushing the flake.lock file to the repo should also work.
+This makes nix re-fetch the metadata on the next `devbox update`.
 
 # Versions available
 
@@ -277,6 +271,7 @@ Currently the following versions are available:
 - `noir-versions.v1_0_0-beta_23` - 1.0.0-beta.23
 - `noir-versions.v1_0_0-beta_24` - 1.0.0-beta.24
 - `noir-versions.v1_0_0-beta_25` - 1.0.0-beta.25
+- `noir-versions.v1_0_0-beta_26` - 1.0.0-beta.26
 
 The canonical source for Noir↔Barretenberg version pairings is the
 `scripts/install_bb.sh` file in the noir-lang/noir repo at each release tag:
@@ -296,6 +291,7 @@ Example: https://github.com/noir-lang/noir/blob/v1.0.0-beta.18/scripts/install_b
 - `nargo-t256-versions.t256-v0_23` - tag t256-v0.23 (noir beta.23)
 - `nargo-t256-versions.t256-v0_24` - tag t256-v0.24 (noir beta.24)
 - `nargo-t256-versions.t256-v0_25` - tag t256-v0.25 (noir beta.25)
+- `nargo-t256-versions.t256-v0_26` - tag t256-v0.26 (noir beta.26)
 
 ## Barretenberg
 
@@ -316,3 +312,4 @@ Example: https://github.com/noir-lang/noir/blob/v1.0.0-beta.18/scripts/install_b
 - `barretenberg-versions.beta_23` - 5.0.0-nightly.20260522 (same BB as beta.22)
 - `barretenberg-versions.beta_24` - 5.0.0 (first stable BB release pinned by a Noir beta; per noir-lang/noir's scripts/install_bb.sh at v1.0.0-beta.24)
 - `barretenberg-versions.beta_25` - 5.0.0 (same BB as beta.24)
+- `barretenberg-versions.beta_26` - 5.0.0 (same BB as beta.24)

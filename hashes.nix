@@ -80,6 +80,12 @@
       "x86_64-darwin" = "sha256-ZgVnxkX4QTibHjfd69T2x1QXdjAY6gNOCLKDOL8nZzw=";
       "aarch64-darwin" = "sha256-Y+1FPQmmW/x47vYyUkIxJpWdQchd4NoM9UKJxeJmzrU=";
     };
+    "1.0.0-beta.26" = {
+      "x86_64-linux" = "sha256-ZASAQL79VamHFYsRE32POPloj2lttNhJEN0bzwRC+4A=";
+      "aarch64-linux" = "sha256-5iuXAXUfL5vRhnFyS2NEr1mNh0XOjN5V1hzCdiI3GBE=";
+      "x86_64-darwin" = "sha256-08tm8/PWpGvXoQ5zUbqzvnksOUwD7fjMEQ+O3nyRX1c=";
+      "aarch64-darwin" = "sha256-K4qTig6uQR0BBRM+seuXsLHxlCA3svQsn6xyRW9emzI=";
+    };
     "1.0.0-beta.8" = {
       "x86_64-linux" = "sha256-MzbkLwBhOPObwbbnHs5u7q+cGL5BwLcNBLCMLXWBCGw=";
       "aarch64-linux" = "sha256-2NnPRF6WP3VCIVj+3W2B8+sGlB8gEiF26BDvZFmI8ME=";
@@ -120,6 +126,10 @@
     "t256-v0.25" = {
       srcHash = "sha256-SN9f63Sz7Vkt7Vh08S6OVZX+LLh2Z+tXR+ualfd1fnk=";
       cargoHash = "sha256-PneK3doubuKFA5uGYx633JFmEN4KvA1zbcsRFe/OBF0=";
+    };
+    "t256-v0.26" = {
+      srcHash = "sha256-jXTEfVmHzV50Z4DdaCkfo6C52ealqqElQpJH7tsjxN0=";
+      cargoHash = "sha256-tXvBC/2u/dUAxx/51Nxjii6b71W4+127WbORGk2/TAk=";
     };
   };
 
