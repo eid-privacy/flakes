@@ -298,6 +298,7 @@ Example: https://github.com/noir-lang/noir/blob/v1.0.0-beta.18/scripts/install_b
 - `nargo-t256-versions.t256-v0_24` - tag t256-v0.24 (noir beta.24)
 - `nargo-t256-versions.t256-v0_25` - tag t256-v0.25 (noir beta.25)
 - `nargo-t256-versions.t256-v0_26` - tag t256-v0.26 (noir beta.26)
+- `nargo-t256-versions.t256-v0_26-1` - tag t256-v0.26-1 (noir beta.26)
 
 ## Barretenberg
 

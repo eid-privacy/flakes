@@ -43,6 +43,7 @@
           "t256-v0_24" = pkgs.callPackage ./nargo-t256.nix { rev = "t256-v0.24"; };
           "t256-v0_25" = pkgs.callPackage ./nargo-t256.nix { rev = "t256-v0.25"; };
           "t256-v0_26" = pkgs.callPackage ./nargo-t256.nix { rev = "t256-v0.26"; };
+          "t256-v0_26-1" = pkgs.callPackage ./nargo-t256.nix { rev = "t256-v0.26-1"; };
         };
 
         barretenberg-versions = {

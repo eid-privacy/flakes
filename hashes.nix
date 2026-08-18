@@ -131,6 +131,10 @@
       srcHash = "sha256-jXTEfVmHzV50Z4DdaCkfo6C52ealqqElQpJH7tsjxN0=";
       cargoHash = "sha256-tXvBC/2u/dUAxx/51Nxjii6b71W4+127WbORGk2/TAk=";
     };
+    "t256-v0.26-1" = {
+      srcHash = "sha256-P6b3cManmekpxGLI3IghnIz+CK/x8qbnZX8EnZ/W1IE=";
+      cargoHash = "sha256-tXvBC/2u/dUAxx/51Nxjii6b71W4+127WbORGk2/TAk=";
+    };
   };
 
   barretenberg = {
